@@ -1,8 +1,8 @@
 CC = gcc
 CFLAG = -std=c11 -O2 -Wall
-TARGET = assignment3
-SRCS = assignment3.c
-OBJS = assignment3.o
+TARGET = mock_test
+SRCS = mock_test.c
+OBJS = mock_test.o
 
 all: $(TARGET)
 
