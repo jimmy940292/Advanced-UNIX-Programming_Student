@@ -17,20 +17,23 @@ int main(int argc, char *argv[])
     // Read parameters
     for(int i = 1;i < argc;i++)
     {
-        if(argv[i] == "c")
+        if (strcmp(argv[i], "-c") == 0)
         {
             params_c = 1;
         }
-        else if (argv[i] == "i")
+        else if (strcmp(argv[i], "-i") == 0)
         {
             params_i = 1;
         }
-        else if (argv[i] == "u")
+        else if (strcmp(argv[i], "-u") == 0)
         {
             params_u = 1;
         }
         
     }
+    printf("%d\n", params_c);
+    printf("%d\n", params_i);
+    printf("%d\n", params_u);
 
     // Read file
     FILE * fp;
