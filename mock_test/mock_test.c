@@ -10,7 +10,7 @@
 int params_c = 0;
 int params_i = 0;
 int params_u = 0;
-int option_all = 0;
+int params_s = 0;
 int tot_index = 0;
 int opt;
 
@@ -50,6 +50,13 @@ int find_func(char **list, char * tar, int *count, int cur_index){
     }
 }
 
+int cmp(const void *a, const void *b){
+    // printf("%s : %s\n", *(const char **)a, *(const char **)b);
+    return strcmp(*(const char **)a, *(const char **)b);
+}
+
+
+
 int main(int argc, char *argv[])
 {
     char *list[100];
@@ -57,24 +64,24 @@ int main(int argc, char *argv[])
     int print[100];
 
     // Read parameters
-    while ((opt = getopt(argc, argv, "iuc")) != -1)
+    while ((opt = getopt(argc, argv, "iucs")) != -1)
     {
         switch (opt)
         {
         case 'i':
             params_i = 1;
-            option_all = option_all ^ 4;
             break;
         case 'u':
             params_u = 1;
-            option_all = option_all ^ 2;
             break;
         case 'c':
             params_c = 1;
-            option_all = option_all ^ 1;
+            break;
+        case 's':
+            params_s = 1;
             break;
         case '?':
-            if (opt == 'i' || opt == 'u' || opt == 'c')
+            if (opt == 'i' || opt == 'u' || opt == 'c' || opt == 's')
             {
                 fprintf(stderr, "Option -%c requires an argument.\n", opt);
             }
@@ -91,6 +98,7 @@ int main(int argc, char *argv[])
     // printf("c: %d\n", params_c);
     // printf("i: %d\n", params_i);
     // printf("u: %d\n", params_u);
+    // printf("s: %d\n", params_s);
 
     // Initialize
     for(int i = 0;i < 100;i++){
@@ -110,7 +118,7 @@ int main(int argc, char *argv[])
     {
         strcpy(list[tot_index], line_buf);
 
-        // printf("%s", list[tot_index]);
+        // printf("%c", list[tot_index][0]);
         tot_index++;
     }
     fclose(fp);
@@ -135,6 +143,11 @@ int main(int argc, char *argv[])
             }
         }
 
+    }
+
+    // Sort Function
+    if(params_s == 1){
+        qsort(list, tot_index, sizeof(const char*), cmp);
     }
 
     // Print Function
