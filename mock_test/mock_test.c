@@ -154,7 +154,10 @@ int main(int argc, char *argv[])
     }
 
 
-    // printf("\n");
+    // Free Space
+    for(int i = 0;i < tot_index;i++){
+        free(list[i]);
+    }
 
     return 0;
 }
