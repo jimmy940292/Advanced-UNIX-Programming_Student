@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 
     // (BUG)
     // Add nextline in the last string
-    strcat(list[tot_index - 1], "\n");
+    // strcat(list[tot_index - 1], "\n");
 
     // Unique Function
     for (int i = tot_index - 1; i >= 0; i--)
