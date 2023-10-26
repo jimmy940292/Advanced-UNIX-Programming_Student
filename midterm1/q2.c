@@ -17,6 +17,7 @@
 
     // Open the destination file for writing
     FILE *destFile = fopen(outputName, "wb");
+    
     if (destFile == NULL)
     {
         perror("Error opening destination file");
@@ -51,7 +52,7 @@
     while ((bytes_read = fread(buffer, 1, buffer_size, sourceFile)) > 0)
     {
         // Write data from the memory stream to the destination file
-        fwrite(buffer, 1, bytes_read, destFile);
+        fwrite(buffer, 1, bytes_read, memStream);
     }
 
     // Close the streams and free the buffer
@@ -74,7 +75,9 @@ int fgets_fputs(size_t buffer_size, char *outputName)
     }
 
     // Open the destination file for writing
-    FILE *destFile = fopen(outputName, "w");
+    // FILE *destFile = fopen(outputName, "w");
+    char buf[buffer_size];
+    FILE *destFile = fmemopen(buf, buffer_size, "w+");
     if (destFile == NULL)
     {
         perror("Error opening destination file");
@@ -111,7 +114,11 @@ int fgetc_fputc(char *outputName)
     }
 
     // Open the destination file for writing
-    FILE *destFile = fopen(outputName, "wb");
+    //FILE *destFile = fopen(outputName, "wb");
+    char buf[4096];
+
+    FILE * destFile = fmemopen(buf, 4096, "w+");
+    
     if (destFile == NULL)
     {
         perror("Error opening destination file");
@@ -151,7 +158,12 @@ int cal_time(int mode, size_t buffer_size, char *outputName)
         // Call the function to be measured
         fread_fwrite(buffer_size, outputName);
 
+        fread_fwrite(buffer_size, outputName);
         // Record the end times
+        fread_fwrite(buffer_size, outputName);
+        fread_fwrite(buffer_size, outputName);
+        fread_fwrite(buffer_size, outputName);
+        
         times(&end);
         end_real = clock();
     }
@@ -164,6 +176,10 @@ int cal_time(int mode, size_t buffer_size, char *outputName)
         // Call the function to be measured
         fgets_fputs(buffer_size, outputName);
 
+        fgets_fputs(buffer_size, outputName);
+        fgets_fputs(buffer_size, outputName);
+        fgets_fputs(buffer_size, outputName);
+        fgets_fputs(buffer_size, outputName);
         // Record the end times
         times(&end);
         end_real = clock();
@@ -177,33 +193,37 @@ int cal_time(int mode, size_t buffer_size, char *outputName)
         // Call the function to be measured
         fgetc_fputc(outputName);
 
+        fgetc_fputc(outputName);
+        fgetc_fputc(outputName);
+        fgetc_fputc(outputName);
+        fgetc_fputc(outputName);
         // Record the end times
         times(&end);
         end_real = clock();
     }
 
     // Calculate CPU usage in user and system mode
-    double user_cpu = (double)(end.tms_utime - start.tms_utime) / sysconf(_SC_CLK_TCK);
-    double system_cpu = (double)(end.tms_stime - start.tms_stime) / sysconf(_SC_CLK_TCK);
+    double user_cpu = (double)(end.tms_utime - start.tms_utime) / sysconf(_SC_CLK_TCK) / 5;
+    double system_cpu = (double)(end.tms_stime - start.tms_stime) / sysconf(_SC_CLK_TCK) / 5;
 
     // Calculate clock time
-    double clock_time = (double)(end_real - start_real) / CLOCKS_PER_SEC;
+    double clock_time = (double)(end_real - start_real) / CLOCKS_PER_SEC / 5;
     printf("mode: %d\n", mode);
     printf("buffer size: %zu\n", buffer_size);
-    printf("User CPU time: %.2f seconds\n", user_cpu);
-    printf("System CPU time: %.2f seconds\n", system_cpu);
-    printf("Clock time: %.2f seconds\n\n", clock_time);
+    printf("User CPU time: %.3f seconds\n", user_cpu);
+    printf("System CPU time: %.3f seconds\n", system_cpu);
+    printf("Clock time: %.3f seconds\n\n", clock_time);
 
     return 0;
 }
 int main()
 {
-    cal_time(0, 1, "mode0_1");
-    cal_time(0, 32, "mode0_32");
-    cal_time(0, 1024, "mode0_1024");
-    cal_time(0, 4096, "mode0_4096");
-    cal_time(1, 4096, "mode1_4096");
-    cal_time(2, 4096, "mode2_4096");
+   cal_time(0, 1, "mode0_1");
+   cal_time(0, 32, "mode0_32");
+   cal_time(0, 1024, "mode0_1024");
+   cal_time(0, 4096, "mode0_4096");
+   cal_time(1, 4096, "mode1_4096");
+   cal_time(2, 4096, "mode2_4096");
 
     return 0;
 }
