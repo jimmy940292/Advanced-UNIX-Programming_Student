@@ -54,18 +54,18 @@ int cmp(const void *a, const void *b){
     return strcmp(*(const char **)a, *(const char **)b);
 }
 
-int new_cmp(const void *a, const void *b)
-{
-    // printf("%s : %s\n", *(const char **)a, *(const char **)b);
+// int new_cmp(const void *a, const void *b)
+// {
+//     // printf("%s : %s\n", *(const char **)a, *(const char **)b);
 
-    // Compare case
-    if(strcasecmp(*(const char **)a, *(const char **)b) == 0){
-        return -1 * strcmp(*(const char **)a, *(const char **)b);
-    }else{
-        return strcasecmp(*(const char **)a, *(const char **)b);
-    }
+//     // Compare case
+//     if(strcasecmp(*(const char **)a, *(const char **)b) == 0){
+//         return -1 * strcmp(*(const char **)a, *(const char **)b);
+//     }else{
+//         return strcasecmp(*(const char **)a, *(const char **)b);
+//     }
 
-}
+// }
 
 int main(int argc, char *argv[])
 {
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
     // strcat(list[tot_index - 1], "\n");
 
     // Sort Function
-    qsort(list, tot_index, sizeof(const char *), new_cmp);
+    qsort(list, tot_index, sizeof(const char *), cmp);
     // qsort(list, tot_index, sizeof(const char *), cmp);
 
     // for(int i = 0;i < tot_index; i++){
