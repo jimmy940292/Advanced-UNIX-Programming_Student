@@ -36,10 +36,10 @@ int main(void){
             FILE * pipe_out;
 
             int nbytes = read(link[0], buf, 200);
-            printf("%d\n", nbytes);
+            // printf("%d\n", nbytes);
             printf("%s\n", buf);
             int status;
-            sleep(10);
+            sleep(5);
 
         }
 
