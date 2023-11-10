@@ -16,11 +16,14 @@ int main(void){
     if(p<0){
         printf("Fork fail\n");
     }else if(p == 0){
+
+        // Create Zombie process
         exit(0);
     }else if(p != 0){
         
         char *arg[2] = {"ps",NULL};
-
+        // Create process to run ps command 
+        // And pipe the output to main process
         pid_t ps_p = fork();
 
         if(ps_p == 0){
@@ -34,7 +37,7 @@ int main(void){
             sleep(1);
             char buf[200];
             FILE * pipe_out;
-
+            // Print output from ps command
             int nbytes = read(link[0], buf, 200);
             // printf("%d\n", nbytes);
             printf("%s\n", buf);
