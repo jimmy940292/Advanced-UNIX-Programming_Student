@@ -19,10 +19,10 @@ int main(void){
 
     // Create New Session
     int sid = setsid();
-    printf("Sid: %d\n", sid);
+    // printf("Sid: %d\n", sid);
 
     // Run 'ps' command
-    char *arg[3] = {"ps","-opid,pgrp,tpgid", NULL};
+    char *arg[3] = {"ps","-opid,pgid,tpgid", NULL};
     // char *arg[2] = {"ps", NULL};
     close(link[0]);
     dup2(link[1], STDOUT_FILENO);
@@ -33,12 +33,12 @@ int main(void){
         // Wait for pip
         sleep(1);
         close(link[1]);
-        char buf[1024];
+        char buf[200];
         FILE * pipe_out;
 
         // Print output from ps command
-        int nbytes = read(link[0], buf, 1024);
-        printf("%d\n", nbytes);
+        int nbytes = read(link[0], buf, 200);
+        // printf("%d\n", nbytes);
         printf("%s\n", buf);
         
     }
