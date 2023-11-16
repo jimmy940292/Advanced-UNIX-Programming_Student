@@ -39,6 +39,7 @@ int main(void){
         // Print output from ps command
         int nbytes = read(link[0], buf, 200);
         // printf("%d\n", nbytes);
+        printf("Child Process: %d\n", p);
         printf("%s\n", buf);
         
     }
