@@ -4,7 +4,7 @@
 #include <sys/types.h>
 
 int main(void){
-
+    
     // Create pipe
     int link[2];
     if (pipe(link) == -1)
@@ -15,6 +15,8 @@ int main(void){
 
     // Create Child Process 
     pid_t p = fork();
+    char *arg[3] = {"ps", "-opid,pgid,tpgid,sid,command", NULL};
+    // char *arg[2] = {"ps", NULL};
     if(p == 0){
 
     // Create New Session
@@ -24,8 +26,7 @@ int main(void){
     printf("New Group id: %d\n", new_pgid);
 
     // Run 'ps' command
-    char *arg[3] = {"ps","-opid,pgid,tpgid,sid,command", NULL};
-    // char *arg[2] = {"ps", NULL};
+    
     close(link[0]);
     dup2(link[1], STDOUT_FILENO);
     execvp("ps", arg);
