@@ -18,19 +18,20 @@ int main(void){
     if(p == 0){
 
     // Create New Session
-    int sid = setsid();
-    // printf("Sid: %d\n", sid);
+    int new_sid = setsid();
+    printf("New Session id: %d\n", new_sid);
+    int new_pgid = getpgrp();
+    printf("New Group id: %d\n", new_pgid);
 
     // Run 'ps' command
-    char *arg[3] = {"ps","-opid,pgid,tpgid,command", NULL};
+    char *arg[3] = {"ps","-opid,pgid,tpgid,sid,command", NULL};
     // char *arg[2] = {"ps", NULL};
     close(link[0]);
     dup2(link[1], STDOUT_FILENO);
     execvp("ps", arg);
-
     }else{
 
-        // Wait for pip
+        // Wait for pipe
         sleep(1);
         close(link[1]);
         char buf[200];
