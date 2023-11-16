@@ -22,7 +22,7 @@ int main(void){
     // printf("Sid: %d\n", sid);
 
     // Run 'ps' command
-    char *arg[3] = {"ps","-opid,pgid,tpgid", NULL};
+    char *arg[3] = {"ps","-opid,pgid,tpgid,command", NULL};
     // char *arg[2] = {"ps", NULL};
     close(link[0]);
     dup2(link[1], STDOUT_FILENO);
@@ -39,6 +39,7 @@ int main(void){
         // Print output from ps command
         int nbytes = read(link[0], buf, 200);
         // printf("%d\n", nbytes);
+        printf("Parent Process: %d\n", getpid());
         printf("Child Process: %d\n", p);
         printf("%s\n", buf);
         
