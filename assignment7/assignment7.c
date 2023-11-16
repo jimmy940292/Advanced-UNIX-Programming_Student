@@ -32,7 +32,7 @@ int main(void){
     }else{
 
         // Wait for pipe
-        sleep(1);
+        // sleep(1);
         close(link[1]);
         char buf[200];
         FILE * pipe_out;
@@ -40,8 +40,8 @@ int main(void){
         // Print output from ps command
         int nbytes = read(link[0], buf, 200);
         // printf("%d\n", nbytes);
-        printf("Parent Process: %d\n", getpid());
         printf("Child Process: %d\n", p);
+        printf("Parent Process: %d\n", getpid());      
         printf("%s\n", buf);
         
     }
