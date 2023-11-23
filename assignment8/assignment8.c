@@ -7,6 +7,8 @@
 static volatile sig_atomic_t sigflag; /* set nonzero by sig handler */
 static sigset_t newmask, oldmask, zeromask;
 
+static int counter;
+
 static void
 sig_usr(int signo) /* one signal handler for SIGUSR1 and SIGUSR2 */
 {
@@ -29,6 +31,7 @@ static void TELL_WAIT(void)
     /* Block SIGUSR1 and SIGUSR2, and save current signal mask */
     if (sigprocmask(SIG_BLOCK, &newmask, &oldmask) < 0)
         perror("SIG_BLOCK error");
+
 }
 
 static void TELL_PARENT(void)
@@ -64,14 +67,12 @@ static void WAIT_CHILD(void)
 static int increment_counter(FILE *const file)
 {
     /* TODO */
-    static int counter = 1;
     char s[256];
-    sprintf(s, "%d", counter);
-    fwrite(s, sizeof(s), 1, file);
-
+    sprintf(s, "%d\n", counter);
+    fwrite(s, strlen(s), 1, file);
+    fflush(file);
     counter+=2;
     return counter - 2;
-
 }
 
 int main(void)
@@ -90,27 +91,44 @@ int main(void)
     }
     if (p == 0){
         // Child process
-        int counter = increment_counter(fp);
-        printf("Child incrementing, value: %d\n", counter);
+        
+        // Initialize signal handler for child
+        if (signal(SIGUSR1, sig_usr) == SIG_ERR)
+            perror("signal(SIGUSR1) error");
+
+        // Set counter
+        counter = 1;
+
+        // Child first write file
+        TELL_WAIT();
+        printf("Child incrementing, value: %d\n", increment_counter(fp));
         TELL_PARENT();
-        while (counter < 99)
+
+        while(counter <= 99)
         {
             WAIT_PARENT();
-            counter = increment_counter(fp);
-            printf("Child incrementing, value: %d\n", counter);
+            TELL_WAIT();
+            printf("Child incrementing, value: %d\n", increment_counter(fp));
             TELL_PARENT();
+            
         }
     }else{
         // Parent process
+        
+        // Initialize signal handler for parent
+        if (signal(SIGUSR2, sig_usr) == SIG_ERR)
+            perror("signal(SIGUSR2) error");
 
-        // Let child first write counter
-        sleep(1);
-        int counter = 0;
-        while (counter < 100)
+
+        // Set counter
+        counter = 2;
+
+
+        while(counter <= 100)
         {
             WAIT_CHILD();
-            counter = increment_counter(fp);
-            printf("Parent incrementing, value: %d\n", counter);
+            TELL_WAIT();
+            printf("Parent incrementing, value: %d\n", increment_counter(fp));
             TELL_CHILD(p);
         }
     }
