@@ -64,9 +64,58 @@ static void WAIT_CHILD(void)
 static int increment_counter(FILE *const file)
 {
     /* TODO */
+    static int counter = 1;
+    char s[256];
+    sprintf(s, "%d", counter);
+    fwrite(s, sizeof(s), 1, file);
+
+    counter+=2;
+    return counter - 2;
+
 }
 
 int main(void)
 {
     /* TODO */
+
+    // Open file
+    FILE *fp;
+    fp = fopen("counter.txt", "w+");
+
+    // Create child process
+    pid_t p = fork();
+    if(p < 0){
+        printf("Fork error\n");
+        return -1;
+    }
+    if (p == 0){
+        // Child process
+        int counter = increment_counter(fp);
+        printf("Child incrementing, value: %d\n", counter);
+        TELL_PARENT();
+        while (counter < 99)
+        {
+            WAIT_PARENT();
+            counter = increment_counter(fp);
+            printf("Child incrementing, value: %d\n", counter);
+            TELL_PARENT();
+        }
+    }else{
+        // Parent process
+
+        // Let child first write counter
+        sleep(1);
+        int counter = 0;
+        while (counter < 100)
+        {
+            WAIT_CHILD();
+            counter = increment_counter(fp);
+            printf("Parent incrementing, value: %d\n", counter);
+            TELL_CHILD(p);
+        }
+    }
+
+    fclose(fp);
+    return 0;
+
 }
