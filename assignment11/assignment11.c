@@ -87,10 +87,10 @@ void daemonize(const char *cmd)
     }
 }
 
-int main(void){
+int main(int argc, char**argv){
 
     // Call daemonize() function
-    daemonize(STDOUT_FILENO);
+    daemonize(argv[0]);
 
     // Open file 
     FILE *f;
