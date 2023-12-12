@@ -83,14 +83,14 @@ void daemonize(const char *cmd)
     if (fd0 != 0 || fd1 != 1 || fd2 != 2)
     {
         syslog(LOG_ERR, "unexpected file descriptors %d %d %d", fd0, fd1, fd2);
-        exit(1);
+        // exit(1);
     }
 }
 
 int main(int argc, char**argv){
 
     // Call daemonize() function
-    daemonize();
+    daemonize("assignment11");
 
     // Call getlogin() function
     char *str = getlogin();
@@ -105,6 +105,16 @@ int main(int argc, char**argv){
 
     // Close file
     fclose(f);
+
+    while (1)
+    {
+        // TODO: Insert daemon code here.
+        syslog(LOG_NOTICE, "First daemon started.");
+        sleep(20);
+        break;
+    }
+    syslog(LOG_NOTICE, "First daemon terminated.");
+    closelog();
 
     return 0;
 }
