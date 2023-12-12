@@ -90,7 +90,7 @@ void daemonize(const char *cmd)
 int main(int argc, char**argv){
 
     // Call daemonize() function
-    daemonize("assignment11");
+    daemonize();
 
     // Call getlogin() function
     char *str = getlogin();
