@@ -1,16 +1,16 @@
 #include <stdio.h>
-int* f1(int val){
+int* f1(int* val){
 
     int num = 0;
     int*ptr = &num;
-    // printf("Value %d is at %p in function f1\n", *ptr, ptr);
+    // printf("Value %d is at %p in function f1\n", *val, val);
 
     if(num == 0){
         /* text had val == 0, but val is not in scope */
-        int val;
-        val = 5;
-        ptr = &val;
-        // printf("Value %d is at %p in function f1\n", *ptr, ptr);
+        // int val;
+        // val = 5;
+        ptr = val;
+        printf("Value %d is at %p in function f1\n", *ptr, ptr);
     }
     
     return ptr;
@@ -18,7 +18,8 @@ int* f1(int val){
 int main(void){
 
     int val = 5;
-    int *ptr = f1(val);
+    printf("Value %d is at %p \n", val, &val);
+    int *ptr = f1(&val);
     
     printf("Value %d is at %p\n", *ptr, ptr);
 

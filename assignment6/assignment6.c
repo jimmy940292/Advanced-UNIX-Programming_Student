@@ -42,7 +42,7 @@ int main(void){
             // printf("%d\n", nbytes);
             printf("%s\n", buf);
             int status;
-            sleep(5);
+            // sleep(5);
 
         }
 
