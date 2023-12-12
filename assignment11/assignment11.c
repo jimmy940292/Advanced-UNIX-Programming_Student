@@ -104,7 +104,7 @@ int main(int argc, char**argv){
     f = fopen("/home/freebsd/Advanced-UNIX-Programming_Student/assignment11/assignment11.txt", "w");
 
     // Write login name in the file
-    fprintf(f, "Login name: %s", str);
+    fprintf(f, "Login name: %s\n", str);
 
     // Close file
     fclose(f);
