@@ -90,15 +90,15 @@ void daemonize(const char *cmd)
 int main(int argc, char**argv){
 
     // Call daemonize() function
-    daemonize(argv[0]);
+    daemonize("assignment11");
+
+    // Call getlogin() function
+    char *str = getlogin();
+    printf("%s\n", str);
 
     // Open file 
     FILE *f;
     f = fopen("assignment11.txt", "w");
-
-    // Call getlogin() function 
-    char * str = getlogin();
-    printf("%s\n", str);
 
     // Write login name in the file
     fprintf(f, "Login name: %s", str);
