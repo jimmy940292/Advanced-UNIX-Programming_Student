@@ -98,6 +98,7 @@ int main(int argc, char**argv){
 
     // Call getlogin() function 
     char * str = getlogin();
+    printf("%s\n", str);
 
     // Write login name in the file
     fprintf(f, "Login name: %s", str);
