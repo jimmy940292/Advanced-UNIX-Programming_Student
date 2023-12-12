@@ -94,7 +94,7 @@ int main(int argc, char**argv){
 
     // Open file 
     FILE *f;
-    f = fopen("assignment11.text", "w");
+    f = fopen("assignment11.txt", "w");
 
     // Call getlogin() function 
     char * str = getlogin();
