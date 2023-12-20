@@ -101,23 +101,14 @@ int main(int argc, char**argv){
     /*  The path should be the absolute path */
     /*  Since the directory is changed to the root */
     // f = fopen("/home/ccw/Unix/Project/assignment11/assignment11.txt", "w");
-    f = fopen("/home/freebsd/Advanced-UNIX-Programming_Student/assignment11/assignment11.txt", "w");
+    // f = fopen("/home/freebsd/Advanced-UNIX-Programming_Student/assignment11/assignment11.txt", "w");
+    f = fopen("assignment11.txt", "w");
 
     // Write login name in the file
     fprintf(f, "Login name: %s\n", str);
 
     // Close file
     fclose(f);
-
-    // while (1)
-    // {
-    //     // TODO: Insert daemon code here.
-    //     syslog(LOG_NOTICE, "First daemon started.");
-    //     sleep(10);
-    //     break;
-    // }
-    // syslog(LOG_NOTICE, "First daemon terminated.");
-    // closelog();
 
     return 0;
 }
