@@ -1,7 +1,7 @@
 all:  Q3
 
 Q1:
-	gcc -std=c11 -O2 -Wall -o q1 q1.c
+	gcc -std=c11 -O2 -Wall -lpthread -o q1 q1.c
 Q2:
 	gcc -std=c11 -O2 -Wall -o q2 q2.c
 Q3:
