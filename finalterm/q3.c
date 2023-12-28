@@ -3,7 +3,6 @@
 #include <time.h>
 #include <signal.h>
 
-
 int count;
 void sig_handler(){
     printf("Alarm!\n");
