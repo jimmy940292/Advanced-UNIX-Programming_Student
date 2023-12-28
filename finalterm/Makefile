@@ -1,4 +1,4 @@
-all:  Q3
+all: Q1 Q2 Q3
 
 Q1:
 	gcc -std=c11 -O2 -Wall -lpthread -o q1 q1.c
